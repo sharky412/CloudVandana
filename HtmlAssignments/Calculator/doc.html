@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ccc;
+        }
+
+        .calculator {
+            width: 320px;
+            background-color: #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .display-row {
+            display: flex;
+        }
+
+        .display {
+            flex: 4.4;
+            background-color: #fff;
+            color: #000;
+            font-size: 24px;
+            text-align: right;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .button.ac {
+            flex: 1;
+            background-color: #00b894;
+            text-align: center;
+            padding: 15px;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+            font-size: 18px;
+            border-left: 1px solid #555;
+        }
+
+        .button.ac:hover {
+            background-color: #019875;
+        }
+
+        .button-row {
+            display: flex;
+        }
+
+        .button {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #555;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .button.number {
+            background-color: #444;
+        }
+
+        .button.number:hover {
+            background-color: #777;
+        }
+
+        .button.operator {
+            background-color: #555;
+        }
+
+        .button.operator:hover {
+            background-color: #777;
+        }
+
+        .button-column {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display-row">
+            <div class="display" id="display">0</div>
+            <div class="button ac" id="clear">AC</div>
+        </div>
+        <div class="button-row">
+            <div class="button number">9</div>
+            <div class="button number">8</div>
+            <div class="button number">7</div>
+            <div class="button operator">+</div>
+        </div>
+        <div class="button-row">
+            <div class="button number">6</div>
+            <div class="button number">5</div>
+            <div class="button number">4</div>
+            <div class="button operator">-</div>
+        </div>
+        <div class="button-row">
+            <div class="button number">3</div>
+            <div class="button number">2</div>
+            <div class="button number">1</div>
+            <div class="button operator">×</div>
+        </div>
+        <div class="button-row">
+            <div class="button number">.</div>
+            <div class="button number">0</div>
+            <div class="button operator">=</div>
+            <div class="button operator">÷</div>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById("display");
+        const clearButton = document.getElementById("clear");
+        let expression = "";
+
+        document.querySelectorAll(".button").forEach(button => {
+            button.addEventListener("click", () => {
+                const value = button.textContent;
+
+                if (button.classList.contains("number") || button.classList.contains("operator")) {
+                    if (value === "=") {
+                        try {
+                            expression = expression.replace(/×/g, "*").replace(/÷/g, "/");
+                            expression = eval(expression).toString();
+                        } catch (error) {
+                            expression = "Error";
+                        }
+                    } else {
+                        if (expression === "0" || expression === "Error") {
+                            expression = "";
+                        }
+                        expression += value;
+                    }
+                }
+
+                if (button.classList.contains("ac")) {
+                    expression = "0";
+                }
+
+                display.textContent = expression;
+            });
+        });
+    </script>
+</body>
+</html>
